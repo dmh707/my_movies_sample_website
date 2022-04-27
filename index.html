@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/site.css">
+    <script src="scripts/model.js" type="text/javascript"></script>
+    <script src="scripts/controler.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+
+
+    <form id="movie_edit_form" style="display:none;">
+        <h1 id="formTitle">Edit Movie</h1>
+        <section>
+        <label for="movie_title">
+            Title:
+            <input type="text" name="movie_title" id="movie_title" />
+        </label>
+        <div id="title_error" class="validation_error"></div>
+    </section>
+
+    <section>
+        <label for="movie_rating">
+            Rating:
+            <select name="movie_rating" id="rating">
+                <option value="0" disabled selected hidden>Select a rating</option>
+                <option value="G">G</option>
+                <option value="PG">PG</option>
+                <option value="PG-13">PG-13</option>
+                <option value="R">R</option>
+            </select>
+        </label>
+        <div id="rating_error" class="validation_error"></div>
+    </section>
+
+    <section>
+        <label for="movie_year">
+            Production Year:
+            <input type="number" name="movie_year" id="movie_year" min="1900" max="2100" />
+        </label>
+        <div id="year_error" class="validation_error"></div>
+    </section>
+
+    <section>
+        <label for="movie_stars">
+            My Rating:
+            <select name="movie_stars" id="movie_stars">
+                <option value="0" disabled selected hidden>Select number of stars</option>
+                <option value="1">&#11088;</option>
+                <option value="2">&#11088; &#11088;</option>
+                <option value="3">&#11088; &#11088; &#11088;</option>
+                <option value="4">&#11088; &#11088; &#11088; &#11088;</option>
+                <option value="5">&#11088; &#11088; &#11088; &#11088; &#11088;</option>
+            </select>
+        </label>
+        <div id="stars_error" class="validation_error"></div>
+    </section>
+
+    <section>
+        <fieldset>
+            <legend>Genre:</legend>
+            <label for="genre0"><input type="radio" name="genre" id="genre0" value="genre0"/>Action/Adventure</label><br/>
+            <label for="genre1"><input type="radio" name="genre" id="genre1" value="genre1"/>Drama</label><br/>
+            <label for="genre2"><input type="radio" name="genre" id="genre2" value="genre2"/>Comedy</label><br/>
+            <label for="genre3"><input type="radio" name="genre" id="genre3" value="genre3"/>Romance</label><br/>
+            <label for="genre4"><input type="radio" name="genre" id="genre4" value="genre4"/>Sci-Fi/Fantasy</label><br/>
+            <label for="genre5"><input type="radio" name="genre" id="genre5" value="genre5"/>Other</label><br/>
+        </fieldset>
+        <div id="genre_error" class="validation_error"></div>
+    </section>
+
+    <section>
+        <fieldset>
+            <legend>Format(s) I own:</legend>
+            <input type="checkbox" id="format-dvd" name="format" value="format-dvd">
+            <label for="format-dvd"> DVD</label>
+            <input type="checkbox" id="format-vhs" name="format" value="format-vhs">
+            <label for="format-vhs"> VHS</label>
+        </fieldset>
+        <div id="format_error" class="validation_error"></div>
+        </section> 
+
+        <button type="button" id="saveBtn">Save</button>
+        <button type="button" id="cancelBtn" class="red_btn">Cancel</button>
+    </form>
+
+    <div id="moviesListArea">
+        <h1>My Movies</h1>
+        <button type="button" id="newBtn">New Movie</button>
+        <table id='moviesTable'>
+            <thead>
+                <th>Title</th>
+                <th>Rating</th>
+                <th>Stars</th>
+                <th>DVD?*</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </thead>
+
+            <tr class="disclaimer"><td colspan="5">*I don't own any Blu-Rays. I hope you'll forgive the substitution</td></tr>
+        </table>
+    </div><!--end #moviesListArea-->
+</div><!--end .container-->
+</div><!--end .wrapper-->
+    <script>
+        function populateData(){
+            const movies = [{title:"The Scarlet Pimpernel",
+                        rating:"PG",
+                        year:"1982",
+                        stars:"5",
+                        genre:"genre0",
+                        format:["format-dvd"]},
+                    {title:"Toy Story",
+                        rating:"G",
+                        year:"1995",
+                        stars:"4",
+                        genre:"genre4",
+                        format:["format-vhs"]},
+                    {title:"The Princess Bride",
+                        rating:"PG",
+                        year:"1987",
+                        stars:"5",
+                        genre:"genre4",
+                        format:["format-dvd"]},
+                    {title:"Star Trek: Generations",
+                        rating:"PG",
+                        year:"1994",
+                        stars:"2",
+                        genre:"genre4",
+                        format:["format-dvd","format-vhs"]},
+                    {title:"The Truman Show",
+                        rating:"PG",
+                        year:"1998",
+                        stars:"4",
+                        genre:"genre1",
+                        format:["format-vhs"]}]
+            for (movie of movies){
+                modelCreateMovie(movie.title,movie.rating,movie.year,movie.stars,movie.genre,movie.format)
+            }
+            let items = modelReadAllMovies();
+            for (let i = 0; i < items.length; i++)
+                addTableRow(items[i]);
+        }
+        populateData()
+        onPageLoad();
+    </script>
+</body>
+</html>
